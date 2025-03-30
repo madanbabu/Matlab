@@ -1,0 +1,69 @@
+function monteCarloSimulation(data, numSimulations, statisticFunction)
+% monteCarloSimulation Performs Monte Carlo simulation on a dataset.
+%
+%   monteCarloSimulation(data, numSimulations, statisticFunction)
+%
+%   Inputs:
+%       data: The input dataset (a vector or matrix).
+%       numSimulations: The number of Monte Carlo simulations to perform.
+%       statisticFunction: A function handle to the statistic to compute.
+%                          Example: @mean, @median, @std, or a custom function.
+%
+%   Outputs:
+%       simulatedStatistics: A vector containing the computed statistic for each simulation.
+%
+%   Example:
+%       data = randn(100, 1); % Example dataset: 100 random numbers
+%       numSimulations = 1000;
+%       statisticFunction = @mean;
+%       simulatedMeans = monteCarloSimulation(data, numSimulations, statisticFunction);
+%       histogram(simulatedMeans); % Visualize the distribution of simulated means.
+
+    if nargin < 3
+        error('Not enough input arguments.');
+    end
+
+    dataSize = size(data, 1); % Number of samples in the data
+    simulatedStatistics = zeros(numSimulations, 1);
+
+    for i = 1:numSimulations
+        % Resample the data with replacement (bootstrap)
+        resampledIndices = randi(dataSize, dataSize, 1);
+        resampledData = data(resampledIndices, :);
+
+        % Calculate the statistic on the resampled data
+        simulatedStatistics(i) = statisticFunction(resampledData);
+    end
+end
+
+% Example Usage:
+data = randn(100, 1); % Example dataset: 100 random numbers from a normal distribution
+numSimulations = 1000;
+statisticFunction = @mean; % Using the mean as the statistic
+
+simulatedMeans = monteCarloSimulation(data, numSimulations, statisticFunction);
+
+% Visualize the distribution of simulated means
+histogram(simulatedMeans);
+title('Distribution of Simulated Means');
+xlabel('Mean Value');
+ylabel('Frequency');
+
+% Example using median
+statisticFunctionMedian = @median;
+simulatedMedians = monteCarloSimulation(data, numSimulations, statisticFunctionMedian);
+figure;
+histogram(simulatedMedians);
+title('Distribution of Simulated Medians');
+xlabel('Median Value');
+ylabel('Frequency');
+
+% Example of a custom function (range)
+
+rangeFunc = @(x) max(x) - min(x);
+simulatedRanges = monteCarloSimulation(data, numSimulations, rangeFunc);
+figure;
+histogram(simulatedRanges);
+title('Distribution of Simulated Ranges');
+xlabel('Range Value');
+ylabel('Frequency');
