@@ -1,0 +1,34 @@
+Explanation and Key Improvements:
+
+Function Structure:
+
+The code is now encapsulated in a function monteCarloSimulation, making it reusable and organized.
+It takes the data, numSimulations, and statisticFunction as inputs, providing flexibility.
+Error Handling:
+
+Includes a basic check for the number of input arguments to prevent errors.
+Bootstrap Resampling:
+
+Uses randi to generate random indices for resampling with replacement (bootstrap), which is the standard Monte Carlo approach for statistical inference.
+This is the core of the Monte Carlo simulation, allowing you to create many slightly different datasets from your original data.
+Generic Statistic Function:
+
+Accepts a function handle (statisticFunction) as an input, allowing you to calculate any statistic (mean, median, standard deviation, etc.) without modifying the main simulation loop.
+This makes the function very versatile.
+Clear Output:
+
+Returns a vector simulatedStatistics containing the calculated statistic for each simulation.
+Example Usage and Visualization:
+
+Provides example usage with the mean, median, and a custom range function, demonstrating how to use the function with different statistics.
+Generates histograms to visualize the distribution of the simulated statistics, which is crucial for understanding the results of the Monte Carlo simulation.
+Comments and Readability:
+
+Includes comprehensive comments to explain each part of the code, improving readability and understanding.
+How to Use:
+
+Save: Save the code as a .m file (e.g., monteCarloSimulation.m).
+Prepare Data: Create your dataset (e.g., data = randn(100, 1);).
+Choose Statistic: Select the statistic you want to calculate (e.g., @mean, @median, or a custom function).
+Run: Call the monteCarloSimulation function with your data, number of simulations, and statistic function.
+Visualize: Use histogram to visualize the results.
